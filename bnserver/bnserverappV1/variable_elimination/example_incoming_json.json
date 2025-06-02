@@ -1,0 +1,9 @@
+{
+    "evidence_list": [
+        { "variable": "Burglary", "value": "True" },
+        { "variable": "MaryCalls", "value": "True" }
+
+    ],
+
+    "query": "JohnCalls"
+}

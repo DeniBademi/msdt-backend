@@ -1,0 +1,128 @@
+Fri May 30 19:28:49 2025
+
+
+Moral links:
+
+    Marrying lung and tub
+    Marrying either and bronc
+
+
+Triangulating prime component with 2 members:
+    asia, tub
+This component is a clique of cost 4
+
+Triangulating prime component with 2 members:
+    either, xray
+This component is a clique of cost 4
+
+Triangulating prime component with 3 members:
+    tub, lung, either
+This component is a clique of cost 8
+
+Triangulating prime component with 4 members:
+    smoke, lung, bronc, either
+
+    Using the best greedy heuristic for triangulation
+
+
+Triangulating prime component with 3 members:
+    bronc, either, dysp
+This component is a clique of cost 8
+
+
+Total cost of triangulation for all prime components is 40
+
+
+Cliques:
+
+Clique 6, 2 members, table size = 4:
+    either, xray
+
+Clique 5, 3 members, table size = 8:
+    either, bronc, dysp
+
+Clique 4, 3 members, table size = 8:
+    either, bronc, lung
+
+Clique 3, 3 members, table size = 8:
+    bronc, lung, smoke
+
+Clique 2, 3 members, table size = 8:
+    either, lung, tub
+
+Clique 1, 2 members, table size = 4:
+    tub, asia
+
+Total clique table size: 40
+
+
+The junction forest:
+
+Creating junction tree with clique 6 as root ...
+
+Cliques 5 and 6 linked, separator has 1 member and table size = 2:
+    either
+
+Cliques 4 and 5 linked, separator has 2 members and table size = 4:
+    either, bronc
+
+Cliques 3 and 4 linked, separator has 2 members and table size = 4:
+    bronc, lung
+
+Cliques 2 and 4 linked, separator has 2 members and table size = 4:
+    either, lung
+
+Cliques 1 and 2 linked, separator has 1 member and table size = 2:
+    tub
+
+
+Assignment of potentials to cliques:
+
+    Node asia assigned to clique 1
+    Node tub assigned to clique 1
+    Node smoke assigned to clique 3
+    Node lung assigned to clique 3
+    Node bronc assigned to clique 3
+    Node either assigned to clique 2
+    Node xray assigned to clique 6
+    Node dysp assigned to clique 5
+
+
+Checking conditional probability potentials:
+
+    No errors found
+
+
+Beliefs for chance nodes:
+
+    asia:
+	yes        0.01
+	no         0.99
+
+    tub:
+	yes        0.0104
+	no         0.9896
+
+    smoke:
+	yes        0.5
+	no         0.5
+
+    lung:
+	yes        0.055
+	no         0.945
+
+    bronc:
+	yes        0.45
+	no         0.55
+
+    either:
+	yes        0.064828
+	no         0.935172
+
+    xray:
+	yes        0.11029
+	no         0.88971
+
+    dysp:
+	yes        0.435971
+	no         0.564029

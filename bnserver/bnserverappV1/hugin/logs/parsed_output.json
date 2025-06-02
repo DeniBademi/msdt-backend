@@ -1,0 +1,176 @@
+{
+    "prediction": {
+        "variable_name": "either",
+        "predicted_value": "no",
+        "probability": 0.935172
+    },
+    "supporting_factors": [
+        {
+            "feature": "dysp",
+            "value": "yes",
+            "importance": "Very important"
+        }
+    ],
+    "opposing_factors": [
+        {
+            "feature": "None",
+            "value": "None"
+        }
+    ],
+    "immediate_causes": [
+        {
+            "feature": "xray",
+            "increase_percent": 5.2,
+            "state": "yes"
+        },
+        {
+            "feature": "tub",
+            "increase_percent": 0.8,
+            "state": "yes"
+        },
+        {
+            "feature": "bronc",
+            "increase_percent": 38.4,
+            "state": "yes"
+        },
+        {
+            "feature": "lung",
+            "increase_percent": 4.8,
+            "state": "yes"
+        },
+        {
+            "feature": "dysp",
+            "increase_percent": 56.4,
+            "state": "yes"
+        }
+    ],
+    "level3_explanations": [
+        {
+            "query": "either",
+            "supporting": [
+                {
+                    "feature": "dysp",
+                    "value": "yes (Very important)"
+                }
+            ],
+            "opposing": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ],
+            "partially_supporting": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ]
+        },
+        {
+            "query": "xray",
+            "supporting": [
+                {
+                    "feature": "dysp",
+                    "value": "yes"
+                }
+            ],
+            "opposing": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ],
+            "partially_supporting": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ]
+        },
+        {
+            "query": "tub",
+            "supporting": [
+                {
+                    "feature": "dysp",
+                    "value": "yes"
+                }
+            ],
+            "opposing": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ],
+            "partially_supporting": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ]
+        },
+        {
+            "query": "bronc",
+            "supporting": [
+                {
+                    "feature": "dysp",
+                    "value": "yes"
+                }
+            ],
+            "opposing": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ],
+            "partially_supporting": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ]
+        },
+        {
+            "query": "lung",
+            "supporting": [
+                {
+                    "feature": "dysp",
+                    "value": "yes"
+                }
+            ],
+            "opposing": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ],
+            "partially_supporting": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ]
+        },
+        {
+            "query": "dysp",
+            "supporting": [
+                {
+                    "feature": "dysp",
+                    "value": "yes"
+                }
+            ],
+            "opposing": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ],
+            "partially_supporting": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ]
+        }
+    ],
+    "explanation_level": "Level 3"
+}

@@ -1,0 +1,260 @@
+{
+    "PR": {
+        "states": [
+            "positive",
+            "negative"
+        ],
+        "position": [
+            693,
+            599
+        ],
+        "ismapvariable": "false",
+        "label": "Progesteron receptor",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "Platelets": {
+        "states": [
+            "lt_400",
+            "ge_400"
+        ],
+        "position": [
+            896,
+            512
+        ],
+        "ismapvariable": "false",
+        "label": "Platelets",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "Survival1yr": {
+        "states": [
+            "yes",
+            "no"
+        ],
+        "position": [
+            393,
+            75
+        ],
+        "ismapvariable": "false",
+        "label": "Survival 1yr",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "LVSI": {
+        "states": [
+            "no",
+            "yes"
+        ],
+        "position": [
+            483,
+            223
+        ],
+        "ismapvariable": "false",
+        "label": "LVSI",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "LNM": {
+        "states": [
+            "no",
+            "yes"
+        ],
+        "position": [
+            640,
+            380
+        ],
+        "ismapvariable": "false",
+        "label": "Lymph node metastasis",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "CA125": {
+        "states": [
+            "lt_35",
+            "ge_35"
+        ],
+        "position": [
+            897,
+            313
+        ],
+        "ismapvariable": "false",
+        "label": "CA125",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "Histology": {
+        "states": [
+            "grade_1",
+            "grade_2",
+            "grade_3"
+        ],
+        "position": [
+            287,
+            383
+        ],
+        "ismapvariable": "false",
+        "label": "Postoperative grade",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "p53": {
+        "states": [
+            "wildtype",
+            "mutant"
+        ],
+        "position": [
+            276,
+            603
+        ],
+        "ismapvariable": "false",
+        "label": "p53",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "PrimaryTumor": {
+        "states": [
+            "grade_1",
+            "grade_2",
+            "grade_3"
+        ],
+        "position": [
+            77,
+            288
+        ],
+        "ismapvariable": "false",
+        "label": "Preoperative grade",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "Therapy": {
+        "states": [
+            "no",
+            "radiotx",
+            "chemotx",
+            "chemoradiotx"
+        ],
+        "position": [
+            174,
+            192
+        ],
+        "ismapvariable": "false",
+        "label": "Adjuvant therapy",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "Survival3yr": {
+        "states": [
+            "yes",
+            "no"
+        ],
+        "position": [
+            725,
+            85
+        ],
+        "ismapvariable": "false",
+        "label": "Survival 3yr",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "L1CAM": {
+        "states": [
+            "negative",
+            "positive"
+        ],
+        "position": [
+            485,
+            602
+        ],
+        "ismapvariable": "false",
+        "label": "L1CAM",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "MyometrialInvasion": {
+        "states": [
+            "no",
+            "lt_50",
+            "ge_50"
+        ],
+        "position": [
+            75,
+            576
+        ],
+        "ismapvariable": "false",
+        "label": "Myometrial invasion",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "ER": {
+        "states": [
+            "positive",
+            "negative"
+        ],
+        "position": [
+            894,
+            601
+        ],
+        "ismapvariable": "false",
+        "label": "Estrogen receptor",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "Recurrence": {
+        "states": [
+            "no",
+            "regional_distant",
+            "local"
+        ],
+        "position": [
+            804,
+            208
+        ],
+        "ismapvariable": "false",
+        "label": "Recurrence",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "Cytology": {
+        "states": [
+            "no",
+            "yes"
+        ],
+        "position": [
+            77,
+            428
+        ],
+        "ismapvariable": "false",
+        "label": "Endometrium in cervical cytology",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "Survival5yr": {
+        "states": [
+            "yes",
+            "no"
+        ],
+        "position": [
+            903,
+            -18
+        ],
+        "ismapvariable": "false",
+        "label": "Survival 5yr",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    },
+    "CTMRI": {
+        "states": [
+            "no",
+            "yes"
+        ],
+        "position": [
+            896,
+            429
+        ],
+        "ismapvariable": "false",
+        "label": "Enlarged nodes CT",
+        "diagnosistype": "AUXILIARY",
+        "excludepolicy": "include whole CPT"
+    }
+}

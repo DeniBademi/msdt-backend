@@ -1,0 +1,61 @@
+domain: <pyhugin96.Domain object at 0x104853540>
+domain: <pyhugin96.Domain object at 0x104853540>
+target: <pyhugin96.Node object at 0x1048e7a30>
+evidence: {<pyhugin96.Node object at 0x1048ec1f0>: 0}
+dummy: <pyhugin96.Node object at 0x1048ec2b0>
+ADSADA
+alpha: 0.9
+esign: {<pyhugin96.Node object at 0x1048ec1f0>: 0}
+LOL
+Level 1
+------------------------------------------------------------------------------
+The chance of either being no = 0.935172
+------------------------------------------------------------------------------
+What are the factors that support above prediction of either?
+dysp = yes (Very important)
+------------------------------------------------------------------------------
+What are the factors that do not support above prediction of either?
+None
+------------------------------------------------------------------------------
+Level 2
+------------------------------------------------------------------------------
+How does the model utilize the above factors to predict either? 
+As the immediate causes of  either the model uses:
+xray :  5.2 % increase in yes
+tub :  0.8 % increase in yes
+bronc :  38.4 % increase in yes
+lung :  4.8 % increase in yes
+dysp :  56.4 % increase in yes
+------------------------------------------------------------------------------
+Level 3
+------------------------------------------------------------------------------
+What are the factors that support above prediction of xray?
+dysp = yes
+------------------------------------------------------------------------------
+What are the factors that do not support above prediction of xray?
+None
+------------------------------------------------------------------------------
+What are the factors that support above prediction of tub?
+dysp = yes
+------------------------------------------------------------------------------
+What are the factors that do not support above prediction of tub?
+None
+------------------------------------------------------------------------------
+What are the factors that support above prediction of bronc?
+dysp = yes
+------------------------------------------------------------------------------
+What are the factors that do not support above prediction of bronc?
+None
+------------------------------------------------------------------------------
+What are the factors that support above prediction of lung?
+dysp = yes
+------------------------------------------------------------------------------
+What are the factors that do not support above prediction of lung?
+None
+------------------------------------------------------------------------------
+What are the factors that support above prediction of dysp?
+dysp = yes
+------------------------------------------------------------------------------
+What are the factors that do not support above prediction of dysp?
+None
+------------------------------------------------------------------------------

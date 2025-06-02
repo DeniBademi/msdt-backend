@@ -1,0 +1,135 @@
+
+Creating factor 0 for variable: Burglary...
+Variable Burglary has no parents
+Created factor 0: 
+   Burglary  prob
+0     True  0.01
+1    False  0.99 
+
+
+Creating factor 1 for variable: Earthquake...
+Variable Earthquake has no parents
+Created factor 1: 
+   Earthquake  prob
+0       True  0.02
+1      False  0.98 
+
+
+Creating factor 2 for variable: Alarm...
+Variable Alarm has parents: ['Burglary', 'Earthquake']
+Created factor 2: 
+    Alarm Burglary Earthquake   prob
+0   True     True       True  0.950
+1  False     True       True  0.050
+2   True    False       True  0.290
+3  False    False       True  0.710
+4   True     True      False  0.940
+5  False     True      False  0.060
+6   True    False      False  0.001
+7  False    False      False  0.999 
+
+
+Creating factor 3 for variable: JohnCalls...
+Variable JohnCalls has parents: ['Alarm']
+Created factor 3: 
+   JohnCalls  Alarm  prob
+0      True   True  0.90
+1     False   True  0.10
+2      True  False  0.05
+3     False  False  0.95 
+
+
+Creating factor 4 for variable: MaryCalls...
+Variable MaryCalls has parents: ['Alarm']
+Created factor 4: 
+   MaryCalls  Alarm  prob
+0      True   True  0.70
+1     False   True  0.30
+2      True  False  0.01
+3     False  False  0.99 
+
+Reducing factors based on observed variables...
+Observed variables: {'Alarm': 'False'}
+Factor f2: (Alarm, Burglary, Earthquake) contains this observed variable.
+Reducing factor 2 on Alarm = False
+Created factor 5: 
+   Burglary Earthquake   prob
+1     True       True  0.050
+3    False       True  0.710
+5     True      False  0.060
+7    False      False  0.999 
+
+Added factor f5: (Burglary, Earthquake) to the factor list
+Factor f3: (JohnCalls, Alarm) contains this observed variable.
+Reducing factor 3 on Alarm = False
+Created factor 6: 
+   JohnCalls  prob
+2      True  0.05
+3     False  0.95 
+
+Added factor f6: (JohnCalls) to the factor list
+Factor f4: (MaryCalls, Alarm) contains this observed variable.
+Reducing factor 4 on Alarm = False
+Created factor 7: 
+   MaryCalls  prob
+2      True  0.01
+3     False  0.99 
+
+Added factor f7: (MaryCalls) to the factor list
+Updated factor list after reduction: 
+ Factor List:
+f0: (Burglary)
+f1: (Earthquake)
+f5: (Burglary, Earthquake)
+f6: (JohnCalls)
+f7: (MaryCalls)
+
+Removed factor f7: (MaryCalls) from the list
+
+Updated factor list: 
+ Factor List:
+f0: (Burglary)
+f1: (Earthquake)
+f5: (Burglary, Earthquake)
+f6: (JohnCalls)
+
+Combining factors: f0: (Burglary) and f5: (Burglary, Earthquake)
+Multiplying factor 0 with factor 5
+Created factor 8: 
+   Burglary Earthquake     prob
+0     True       True  0.00050
+1     True      False  0.00060
+2    False       True  0.70290
+3    False      False  0.98901 
+
+Marginalizing Factor 8 on Burglary
+Created factor 8: 
+   Earthquake     prob
+0      False  0.98961
+1       True  0.70340 
+
+Removed factor f0: (Burglary) from the list
+Removed factor f5: (Burglary, Earthquake) from the list
+Added new factor f8: (Earthquake)
+
+Updated factor list: 
+ Factor List:
+f1: (Earthquake)
+f6: (JohnCalls)
+f8: (Earthquake)
+
+Combining factors: f1: (Earthquake) and f8: (Earthquake)
+Multiplying factor 1 with factor 8
+Created factor 9: 
+   Earthquake      prob
+0       True  0.014068
+1      False  0.969818 
+
+Removed factor f1: (Earthquake) from the list
+Removed factor f8: (Earthquake) from the list
+
+Updated factor list: 
+ Factor List:
+f6: (JohnCalls)
+
+Now as a final step: Normalization

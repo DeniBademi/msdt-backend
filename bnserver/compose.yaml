@@ -1,0 +1,14 @@
+services:
+ django-web:
+   build: .
+   container_name: msdt_backend
+   ports:
+     - "8000:8000"
+
+   environment:
+     DEBUG: ${DEBUG}
+     DJANGO_LOGLEVEL: ${DJANGO_LOGLEVEL}
+     DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+
+volumes:
+   postgres_data:

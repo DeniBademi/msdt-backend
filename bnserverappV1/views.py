@@ -212,7 +212,7 @@ def predict_MPE(request):
         net_filename = os.path.splitext(os.path.basename(net_file_path))[0]
 
         # run inference
-        import pyAgrum as gum
+        import pyagrum as gum
 
         bn = gum.loadBN(net_file_path)
         ie = gum.LazyPropagation(bn)

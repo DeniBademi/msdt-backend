@@ -118,7 +118,8 @@ def get_metadata(request, network_id):
 @require_auth
 def predict(request):
     if request.method != 'POST':
-        return HttpResponse(f"Only POST method is allowed, got {request.method}")
+        # return HttpResponse(f"Only POST method is allowed, got {request.method}")
+        pass
     try:
         json_data = json.loads(request.body)
         print(json_data)

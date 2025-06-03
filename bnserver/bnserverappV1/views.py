@@ -13,52 +13,20 @@ import os
 from .get_metadata import get_metadata_for_network
 from .get_metadata_bif import get_metadata_for_network_bif
 from .hugin.inference import infer
-from .hugin.inference import bif_to_net
 from .hugin import hugin_output_parser
-
+from .auth import require_auth, get_token, decode_token
 import subprocess
 from globals import PYTHONPATH
 
-def get_token(user: User) -> str:
-    """
-    Generates a JWT token for the user.
-    Parameters:
-    ----------
-    user : User
-        The user object for which the token is generated.
-    Returns:
-    -------
-    str
-        A JWT token containing the user's username and role.
-    """
-    return jwt.encode(dict(username=user.username, role=user.role), "secret", algorithm="HS256")
+
+
 
 #view
 def index(request):
-    """
-    A simple view to check if the server is running.
-    Parameters:
-    request : HttpRequest
-        The HTTP request object.
-    Returns:
-    HttpResponse
-        A response indicating that the server is running.
-    """
-
     return HttpResponse("Bayesian Network Server is running.")
 
 @csrf_exempt
 def login(request):
-    """
-    Handles user login by verifying username and password
-    Parameters:
-    request : HttpRequest
-        The HTTP request object containing the login credentials.
-    Returns:
-    JsonResponse
-        A response containing the user's information and a JWT token if login is successful,
-        or an error message if the credentials are invalid.
-    """
     if request.method != 'POST':
         return HttpResponse("Only POST method is allowed")
 
@@ -86,30 +54,15 @@ def login(request):
 
 @csrf_exempt
 def signup(request):
-    """
-    Handles user signup by creating a new user with the provided username, password, and role.
-    Parameters:
-    request : HttpRequest
-        The HTTP request object containing the signup data.
-    Returns:
-    JsonResponse
-        A response containing the new user's information and a JWT token if signup is successful,
-        or an error message if the data is invalid.
-    """
-
     if request.method != 'POST':
         return HttpResponse("Only POST method is allowed")
 
     json_data = json.loads(request.body)
 
-    role = json_data.get('role', 'user')
-    if role == 'admin' and json_data.get('admin_code') != 'password_is_password':
-        return JsonResponse({"error": "Invalid admin code"}, status=403)
-
     new_user = User(
         username = json_data['username'],
         password = make_password(json_data['password']),
-        role = role
+        role = "user"
     )
 
     new_user.save()
@@ -122,19 +75,8 @@ def signup(request):
     return JsonResponse(out)
 
 @csrf_exempt
+@require_auth
 def get_metadata(request, network_id):
-    """
-    Retrieves metadata for a given network based on its ID.
-    Parameters:
-    request : HttpRequest
-        The HTTP request object.
-    network_id : str
-        The ID of the network for which metadata is requested.
-    Returns:
-    JsonResponse
-        A response containing the network's metadata, or an error message if the network is not found.
-    """
-
     if request.method != 'GET':
         return HttpResponse("Only GET method is allowed")
 
@@ -173,16 +115,8 @@ def get_metadata(request, network_id):
         }, status=500)
 
 @csrf_exempt
+@require_auth
 def predict(request):
-    """
-    Handles the prediction request by running inference on a Bayesian network.
-    Parameters:
-    request : HttpRequest
-        The HTTP request object containing the query and evidence for inference.
-    Returns:
-    JsonResponse
-        A response containing the inference results, or an error message if the request is invalid.
-    """
     if request.method != 'POST':
         return HttpResponse("Only POST method is allowed")
     try:
@@ -206,7 +140,6 @@ def predict(request):
         if not network_id:
             return JsonResponse("Missing 'network' name")
 
-
         # check
         print("query",query)
         print("evidence:",evidence)
@@ -216,39 +149,15 @@ def predict(request):
             model_instance = UploadedModel.objects.get(id=network_id)
         except UploadedModel.DoesNotExist:
             return JsonResponse({"error": f"Network '{network_id}' not found in database"}, status=404)
-        
-
-        # what steven changed ------------------------------------------
 
         # Get the full file path
-        file_path = model_instance.file.path
-        file_name = os.path.splitext(os.path.basename(file_path))[0]
-        file_ext = os.path.splitext(file_path)[1].lower()  
-
-        if file_ext == '.bif':
-            # Convert .bif to .net
-            bif_file_path = file_path
-            converted_filename = os.path.splitext(os.path.basename(file_path))[0] + "_converted.net"
-            folder_path = os.path.dirname(file_path)
-            file_path = os.path.join(folder_path, converted_filename)
-            file_name = converted_filename
-            
-            # Call your bif_to_net converter
-            #bif_to_net(bif_file_path, converted_filename, folder_path)
-        elif file_ext == '.net':
-            file_path = file_path
-        else:
-            return JsonResponse({"error": f"Unsupported file type: {file_ext}"}, status=400)
-        
-        # --------------------------------------------------------
-
+        net_file_path = model_instance.file.path
+        net_filename = os.path.splitext(os.path.basename(net_file_path))[0]
 
         # run inference (see example usage in inference.py for more info)
-        res = subprocess.check_output([PYTHONPATH,
-                                       "./bnserverappV1/hugin/inference.py",
-                                       "--filename", file_name, "--path", file_path, "--targetname", query, "--evidence", json.dumps(evidence)])   # output is saved in /hugin/logs/hugin_output.log
+        res = resolve_inference_call(net_filename, net_file_path, query, evidence)
         print(res)
-        # os.system(f"py {os.path.join(os.path.dirname(__file__), 'hugin', 'inference.py')} --filename {file_name} --path {file_path} --targetname {query} --evidence {json.dumps(evidence_list)}")
+        # os.system(f"py {os.path.join(os.path.dirname(__file__), 'hugin', 'inference.py')} --filename {net_filename} --path {net_file_path} --targetname {query} --evidence {json.dumps(evidence_list)}")
         # parse hugin output: output is saved in /hugin/logs/parser_output.json
         script_dir = os.path.dirname(os.path.abspath(__file__))
         log_path = os.path.join(script_dir, "hugin", "logs", "hugin_output.log")
@@ -263,8 +172,9 @@ def predict(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)})
-    
+
 @csrf_exempt
+@require_auth
 def predict_MPE(request):
     if request.method != 'POST':
         return HttpResponse("Only POST method is allowed")
@@ -300,7 +210,7 @@ def predict_MPE(request):
         net_file_path = model_instance.file.path
         net_filename = os.path.splitext(os.path.basename(net_file_path))[0]
 
-        # run inference 
+        # run inference
         import pyAgrum as gum
 
         bn = gum.loadBN(net_file_path)
@@ -321,16 +231,8 @@ def predict_MPE(request):
         return JsonResponse({"error": str(e)})
 
 @csrf_exempt  # Use this for development (better: use Angular's CSRF handling)
+@require_auth
 def upload_model(request):
-    """
-    Handles the file upload for Bayesian network models.
-    Parameters:
-    request : HttpRequest
-        The HTTP request object containing the uploaded file and optional name.
-    Returns:
-    JsonResponse
-        A response containing the uploaded file's URL and ID, or an error message if the upload fails.
-    """
     if request.method == "POST" and request.FILES.get("file"):
         uploaded_file = request.FILES["file"]
         file_path = os.path.splitext(uploaded_file.name)[1].lower()
@@ -355,16 +257,8 @@ def upload_model(request):
     return JsonResponse({"error": "No file uploaded"}, status=400)
 
 @csrf_exempt
+@require_auth
 def get_networks(request):
-    """
-    Retrieves a list of all uploaded networks.
-    Parameters:
-    request : HttpRequest
-        The HTTP request object.
-    Returns:
-    JsonResponse
-        A response containing a list of networks with their IDs and names.
-    """
     if request.method != 'GET':
         return HttpResponse("Only GET method is allowed")
 
@@ -380,3 +274,24 @@ def get_networks(request):
         })
 
     return JsonResponse({"networks": networks_list})
+
+
+def resolve_inference_call(net_filename, net_file_path, query, evidence):
+    print("PYTHONPATH", PYTHONPATH)
+    python_call = PYTHONPATH
+    path_to_inference = "./bnserverappV1/hugin/inference.py"
+    args = ["--filename", net_filename, "--path", net_file_path, "--targetname", query, "--evidence", json.dumps(evidence)]
+    print(args)
+    try:
+        res = subprocess.check_output([python_call, path_to_inference] + args)
+    except Exception as e:
+        if str(e) == f"[Errno 2] No such file or directory: '{python_call}'":
+            # cannot find python
+            python_call = "python"
+            path_to_inference = "/app/bnserverappV1/hugin/inference.py"
+            res = subprocess.check_output([python_call, path_to_inference] + args)
+            print("res", res)
+        else:
+            print(str(e))
+            raise e
+    return res

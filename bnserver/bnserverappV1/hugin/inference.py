@@ -168,7 +168,7 @@ def bif_to_net_helper2(input_path, output_path):
     states_pattern = re.compile(r'^\s*states\s*=\s*\((.*?)\)\s*;?\s*$')
     software_pattern = re.compile(r'^\s*software\s*=\s*".*"\s*;?\s*$')
     simple_data_pattern = re.compile(r'data\s*=\s*\(.*\)\s*;?')
-    
+
 
     inside_net_block = False
     inside_potential_block = False
@@ -183,8 +183,8 @@ def bif_to_net_helper2(input_path, output_path):
             inside_net_block = True
             new_lines.append(line)
             continue
-        
-        
+
+
         if inside_net_block and stripped_line == '}':
             inside_net_block = False
             new_lines.append(line)
@@ -194,14 +194,14 @@ def bif_to_net_helper2(input_path, output_path):
             continue
 
         if inside_net_block and stripped_line.startswith('name'):
-    
+
             name_match = re.match(r'(\s*name\s*=\s*)(\w+)(\s*;)', stripped_line)
             if name_match:
                 new_line = f'   {name_match.group(1)}"{name_match.group(2)}"{name_match.group(3)}\n'
                 new_lines.append(new_line)
                 continue
 
-        
+
         # STATES ---------------------------------------
         match = states_pattern.match(line)
         if match:
@@ -218,10 +218,10 @@ def bif_to_net_helper2(input_path, output_path):
 
             match = re.match(r'potential\s*\(\s*(\w+)\s*\|\s*(.*?)\s*\)', stripped_line)
             if match:
-                child = match.group(1)  
-                parents_str = match.group(2)  
-                parents = parents_str.strip().split() 
-                num_parents = len(parents)  
+                child = match.group(1)
+                parents_str = match.group(2)
+                parents = parents_str.strip().split()
+                num_parents = len(parents)
                 print(f"Potential for {child}: {num_parents} parent(s) -> {parents}")
 
             # no "|"
@@ -245,7 +245,7 @@ def bif_to_net_helper2(input_path, output_path):
             if simple_data_pattern.match(stripped_line):
 
                 new_lines.append(line)
-                inside_data_block = False  
+                inside_data_block = False
             else:
                 new_lines.append('   data =')
                 inside_data_block = True
@@ -277,10 +277,10 @@ def bif_to_net_helper2(input_path, output_path):
                     else:
                         new_line += ' ' + token
                 prev_token = token
-            
+
             new_lines.append(new_line + '\n')
             continue
-            
+
         new_lines.append(line)
 
     with open(output_path, 'w') as f:
@@ -307,8 +307,8 @@ if __name__ == "__main__":
                         default='{"smoke": "no"}')
     args = parser.parse_args()
 
-    #Run this code to test out how you can transform bif-files to net-files --> transforms the asia.bif to asia.net and saves it into hugin folder. 
-    bif_to_net("/Users/steve/IdeaProjects/programming/repository_MSDT/backend/bnserver/bnserverappV1/hugin/asia.bif", "asia.net", "/Users\steve/IdeaProjects/programming/repository_MSDT/backend/bnserver/bnserverappV1/hugin")
+    #Run this code to test out how you can transform bif-files to net-files --> transforms the asia.bif to asia.net and saves it into hugin folder.
+    # bif_to_net("/Users/steve/IdeaProjects/programming/repository_MSDT/backend/bnserver/bnserverappV1/hugin/asia.bif", "asia.net", "/Users\steve/IdeaProjects/programming/repository_MSDT/backend/bnserver/bnserverappV1/hugin")
 
     #The rest of the code run inference on this asia.net file.
     filename = args.filename

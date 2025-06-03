@@ -1,12 +1,12 @@
 {
     "prediction": {
-        "variable_name": "either",
-        "predicted_value": "no",
-        "probability": 0.935172
+        "variable_name": "CA125",
+        "predicted_value": "ge_35",
+        "probability": 0.17210308519481776
     },
     "supporting_factors": [
         {
-            "feature": "dysp",
+            "feature": "Enlarged nodes CT",
             "value": "yes",
             "importance": "Very important"
         }
@@ -19,37 +19,37 @@
     ],
     "immediate_causes": [
         {
-            "feature": "xray",
-            "increase_percent": 5.2,
+            "feature": "Enlarged nodes CT",
+            "increase_percent": 95.1,
             "state": "yes"
         },
         {
-            "feature": "tub",
-            "increase_percent": 0.8,
+            "feature": "Recurrence",
+            "increase_percent": 12.6,
+            "state": "regional_distant"
+        },
+        {
+            "feature": "Postoperative grade",
+            "increase_percent": 11.3,
+            "state": "grade_3"
+        },
+        {
+            "feature": "Lymph node metastasis",
+            "increase_percent": 24.6,
             "state": "yes"
         },
         {
-            "feature": "bronc",
-            "increase_percent": 38.4,
-            "state": "yes"
-        },
-        {
-            "feature": "lung",
-            "increase_percent": 4.8,
-            "state": "yes"
-        },
-        {
-            "feature": "dysp",
-            "increase_percent": 56.4,
+            "feature": "LVSI",
+            "increase_percent": 13.2,
             "state": "yes"
         }
     ],
     "level3_explanations": [
         {
-            "query": "either",
+            "query": "CA125",
             "supporting": [
                 {
-                    "feature": "dysp",
+                    "feature": "Enlarged nodes CT",
                     "value": "yes (Very important)"
                 }
             ],
@@ -67,10 +67,10 @@
             ]
         },
         {
-            "query": "xray",
+            "query": "Enlarged nodes CT",
             "supporting": [
                 {
-                    "feature": "dysp",
+                    "feature": "Enlarged nodes CT",
                     "value": "yes"
                 }
             ],
@@ -88,10 +88,10 @@
             ]
         },
         {
-            "query": "tub",
+            "query": "Recurrence",
             "supporting": [
                 {
-                    "feature": "dysp",
+                    "feature": "Enlarged nodes CT",
                     "value": "yes"
                 }
             ],
@@ -109,10 +109,10 @@
             ]
         },
         {
-            "query": "bronc",
+            "query": "Postoperative grade",
             "supporting": [
                 {
-                    "feature": "dysp",
+                    "feature": "Enlarged nodes CT",
                     "value": "yes"
                 }
             ],
@@ -130,10 +130,10 @@
             ]
         },
         {
-            "query": "lung",
+            "query": "Lymph node metastasis",
             "supporting": [
                 {
-                    "feature": "dysp",
+                    "feature": "Enlarged nodes CT",
                     "value": "yes"
                 }
             ],
@@ -151,10 +151,10 @@
             ]
         },
         {
-            "query": "dysp",
+            "query": "LVSI",
             "supporting": [
                 {
-                    "feature": "dysp",
+                    "feature": "Enlarged nodes CT",
                     "value": "yes"
                 }
             ],

@@ -2,8 +2,10 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Questionnaire, Question, Answer, User
+from .auth import require_auth, require_admin
 
 @csrf_exempt
+@require_admin
 def create_questionnaire(request):
     """
     Create a new questionnaire.
@@ -15,6 +17,9 @@ def create_questionnaire(request):
         "title": "Questionnaire Title",  # Required
         "description": "Optional description"  # Optional
     }
+
+    Headers:
+    - Authorization: Bearer <jwt_token>
 
     Returns:
     {
@@ -59,6 +64,7 @@ def create_questionnaire(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
+@require_admin
 def create_question(request):
     """
     Create a new question for a questionnaire.
@@ -71,6 +77,9 @@ def create_question(request):
         "text": "Question text",  # Required
         "question_type": "text"  # Optional, defaults to "text"
     }
+
+    Headers:
+    - Authorization: Bearer <jwt_token>
 
     Returns:
     {
@@ -124,6 +133,7 @@ def create_question(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
+@require_auth
 def submit_answers(request):
     """
     Submit answers to questions.
@@ -132,7 +142,6 @@ def submit_answers(request):
 
     Request Body:
     {
-        "user_id": 1,  # Required
         "answers": [  # Required
             {
                 "question_id": 1,
@@ -144,6 +153,9 @@ def submit_answers(request):
             }
         ]
     }
+
+    Headers:
+    - Authorization: Bearer <jwt_token>
 
     Returns:
     {
@@ -165,14 +177,13 @@ def submit_answers(request):
 
     try:
         data = json.loads(request.body)
-        user_id = data.get('user_id')
         answers = data.get('answers', [])  # Expected format: [{"question_id": 1, "answer_text": "..."}, ...]
 
-        if not user_id or not answers:
-            return JsonResponse({"error": "Missing user_id or answers"}, status=400)
+        if not answers:
+            return JsonResponse({"error": "Missing answers"}, status=400)
 
         # Verify user exists
-        user = User.objects.get(id=user_id)
+        user = User.objects.get(id=request.user_id)
 
         # Process each answer
         saved_answers = []
@@ -212,6 +223,7 @@ def submit_answers(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
+@require_admin
 def get_answers_by_question(request):
     """
     Get all answers for a specific question.
@@ -220,6 +232,9 @@ def get_answers_by_question(request):
 
     Query Parameters:
     - question_id: Required, the ID of the question
+
+    Headers:
+    - Authorization: Bearer <jwt_token>
 
     Returns:
     {
@@ -267,6 +282,7 @@ def get_answers_by_question(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
+@require_auth
 def get_questions_by_questionnaire(request):
     """
     Get all questions for a specific questionnaire.
@@ -275,6 +291,9 @@ def get_questions_by_questionnaire(request):
 
     Query Parameters:
     - questionnaire_id: Required, the ID of the questionnaire
+
+    Headers:
+    - Authorization: Bearer <jwt_token>
 
     Returns:
     {
@@ -331,6 +350,7 @@ def get_questions_by_questionnaire(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
+@require_admin
 def download_answers_csv(request):
     """
     Download all answers for a questionnaire as a CSV file.
@@ -339,6 +359,9 @@ def download_answers_csv(request):
 
     Query Parameters:
     - questionnaire_id: Required, the ID of the questionnaire
+
+    Headers:
+    - Authorization: Bearer <jwt_token>
 
     Returns:
     - A CSV file with tab delimiter where:

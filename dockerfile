@@ -18,6 +18,9 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Upgrade pip and install dependencies
 RUN pip install --upgrade pip
 
+# Explicitly install pyAgrum first
+RUN pip install --no-cache-dir pyAgrum==2.1.1
+
 # Copy the requirements file first (better caching)
 COPY requirements.txt /app/
 

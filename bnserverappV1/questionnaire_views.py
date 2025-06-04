@@ -1,8 +1,8 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Questionnaire, Question, Answer, User
-from .auth import require_auth, require_admin
+from .auth import require_auth, require_admin, get_user_info, require_admin_token
 
 @csrf_exempt
 @require_admin
@@ -183,7 +183,8 @@ def submit_answers(request):
             return JsonResponse({"error": "Missing answers"}, status=400)
 
         # Verify user exists
-        user = User.objects.get(id=request.user_id)
+        user_id, role = get_user_info(request)
+        user = User.objects.get(id=user_id)
 
         # Process each answer
         saved_answers = []
@@ -350,8 +351,8 @@ def get_questions_by_questionnaire(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
-@require_admin
-def download_answers_csv(request):
+# @require_admin
+def download_answers_csv(request: HttpRequest):
     """
     Download all answers for a questionnaire as a CSV file.
 
@@ -374,10 +375,16 @@ def download_answers_csv(request):
 
     try:
         questionnaire_id = request.GET.get('questionnaire_id')
+        token = request.GET.get('token')
+
+        if not require_admin_token(token):
+            return JsonResponse({"error": "Invalid token"}, status=400)
+
         if not questionnaire_id:
             return JsonResponse({"error": "questionnaire_id parameter is required"}, status=400)
 
         # Get the questionnaire and its questions
+
         questionnaire = Questionnaire.objects.get(id=questionnaire_id)
         questions = Question.objects.filter(questionnaire=questionnaire).order_by('id')
 

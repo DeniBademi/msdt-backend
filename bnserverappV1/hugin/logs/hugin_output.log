@@ -1,60 +1,60 @@
-domain: <pyhugin96.Domain object at 0x10062b1c0>
-domain: <pyhugin96.Domain object at 0x10062b1c0>
-target: <pyhugin96.Node object at 0x1006bce50>
-evidence: {<pyhugin96.Node object at 0x1006c3a00>: 1}
-dummy: <pyhugin96.Node object at 0x1006c6340>
+domain: <pyhugin96.Domain object at 0x10068d300>
+domain: <pyhugin96.Domain object at 0x10068d300>
+target: <pyhugin96.Node object at 0x100723850>
+evidence: {<pyhugin96.Node object at 0x1007236d0>: 1}
+dummy: <pyhugin96.Node object at 0x100726340>
 ADSADA
 alpha: 0.9
-esign: {<pyhugin96.Node object at 0x1006c3a00>: 1}
+esign: {<pyhugin96.Node object at 0x1007236d0>: 1}
 LOL
 Level 1
 ------------------------------------------------------------------------------
-The chance of CA125 being ge_35 = 0.17210308519481776
+The chance of Endometrium in cervical cytology being yes = 0.036697249999999994
 ------------------------------------------------------------------------------
-What are the factors that support above prediction of CA125?
-Enlarged nodes CT = yes (Very important)
+What are the factors that support above prediction of Endometrium in cervical cytology?
+Estrogen receptor = negative (Very important)
 ------------------------------------------------------------------------------
-What are the factors that do not support above prediction of CA125?
+What are the factors that do not support above prediction of Endometrium in cervical cytology?
 None
 ------------------------------------------------------------------------------
 Level 2
 ------------------------------------------------------------------------------
-How does the model utilize the above factors to predict CA125? 
-As the immediate causes of  CA125 the model uses:
-Enlarged nodes CT :  95.1 % increase in yes
-Recurrence :  12.6 % increase in regional_distant
-Postoperative grade :  11.3 % increase in grade_3
-Lymph node metastasis :  24.6 % increase in yes
-LVSI :  13.2 % increase in yes
+How does the model utilize the above factors to predict Endometrium in cervical cytology? 
+As the immediate causes of  Endometrium in cervical cytology the model uses:
+Myometrial invasion :  7.0 % increase in ge_50
+Preoperative grade :  26.7 % increase in grade_3
+Postoperative grade :  39.5 % increase in grade_3
+Adjuvant therapy :  8.0 % increase in chemotx
+LVSI :  14.3 % increase in yes
 ------------------------------------------------------------------------------
 Level 3
 ------------------------------------------------------------------------------
-What are the factors that support above prediction of Enlarged nodes CT?
-Enlarged nodes CT = yes
+What are the factors that support above prediction of Myometrial invasion?
+Estrogen receptor = negative
 ------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Enlarged nodes CT?
+What are the factors that do not support above prediction of Myometrial invasion?
 None
 ------------------------------------------------------------------------------
-What are the factors that support above prediction of Recurrence?
-Enlarged nodes CT = yes
+What are the factors that support above prediction of Preoperative grade?
+Estrogen receptor = negative
 ------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Recurrence?
+What are the factors that do not support above prediction of Preoperative grade?
 None
 ------------------------------------------------------------------------------
 What are the factors that support above prediction of Postoperative grade?
-Enlarged nodes CT = yes
+Estrogen receptor = negative
 ------------------------------------------------------------------------------
 What are the factors that do not support above prediction of Postoperative grade?
 None
 ------------------------------------------------------------------------------
-What are the factors that support above prediction of Lymph node metastasis?
-Enlarged nodes CT = yes
+What are the factors that support above prediction of Adjuvant therapy?
+Estrogen receptor = negative
 ------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Lymph node metastasis?
+What are the factors that do not support above prediction of Adjuvant therapy?
 None
 ------------------------------------------------------------------------------
 What are the factors that support above prediction of LVSI?
-Enlarged nodes CT = yes
+Estrogen receptor = negative
 ------------------------------------------------------------------------------
 What are the factors that do not support above prediction of LVSI?
 None

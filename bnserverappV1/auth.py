@@ -13,6 +13,14 @@ def decode_token(token: str) -> dict:
         return None
 
 def get_user_info(request):
+    """Retrieves user information from the request headers.
+
+    Args:
+        request (Request): The HTTP request object.
+
+    Returns:
+        tuple: A tuple containing the user ID and role.
+    """
     # Get token from Authorization header
     auth_header = request.headers.get('Authorization')
     if not auth_header or not auth_header.startswith('Bearer '):
@@ -56,4 +64,15 @@ def require_admin(view_func):
 
         return view_func(request, *args, **kwargs)
     return wrapper
+
+def require_admin_token(token: str):
+    decoded_token = decode_token(token)
+    user_id = decoded_token.get('user_id')
+    role = decoded_token.get('role')
+    if not user_id:
+        return False
+    if role != 'admin':
+        return False
+    return True
+
 

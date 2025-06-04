@@ -1,13 +1,13 @@
 {
     "prediction": {
-        "variable_name": "CA125",
-        "predicted_value": "ge_35",
-        "probability": 0.17210308519481776
+        "variable_name": "Endometrium in cervical cytology",
+        "predicted_value": "yes",
+        "probability": 0.036697249999999994
     },
     "supporting_factors": [
         {
-            "feature": "Enlarged nodes CT",
-            "value": "yes",
+            "feature": "Estrogen receptor",
+            "value": "negative",
             "importance": "Very important"
         }
     ],
@@ -19,38 +19,38 @@
     ],
     "immediate_causes": [
         {
-            "feature": "Enlarged nodes CT",
-            "increase_percent": 95.1,
-            "state": "yes"
+            "feature": "Myometrial invasion",
+            "increase_percent": 7.0,
+            "state": "ge_50"
         },
         {
-            "feature": "Recurrence",
-            "increase_percent": 12.6,
-            "state": "regional_distant"
-        },
-        {
-            "feature": "Postoperative grade",
-            "increase_percent": 11.3,
+            "feature": "Preoperative grade",
+            "increase_percent": 26.7,
             "state": "grade_3"
         },
         {
-            "feature": "Lymph node metastasis",
-            "increase_percent": 24.6,
-            "state": "yes"
+            "feature": "Postoperative grade",
+            "increase_percent": 39.5,
+            "state": "grade_3"
+        },
+        {
+            "feature": "Adjuvant therapy",
+            "increase_percent": 8.0,
+            "state": "chemotx"
         },
         {
             "feature": "LVSI",
-            "increase_percent": 13.2,
+            "increase_percent": 14.3,
             "state": "yes"
         }
     ],
     "level3_explanations": [
         {
-            "query": "CA125",
+            "query": "Endometrium in cervical cytology",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes (Very important)"
+                    "feature": "Estrogen receptor",
+                    "value": "negative (Very important)"
                 }
             ],
             "opposing": [
@@ -67,11 +67,11 @@
             ]
         },
         {
-            "query": "Enlarged nodes CT",
+            "query": "Myometrial invasion",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes"
+                    "feature": "Estrogen receptor",
+                    "value": "negative"
                 }
             ],
             "opposing": [
@@ -88,11 +88,11 @@
             ]
         },
         {
-            "query": "Recurrence",
+            "query": "Preoperative grade",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes"
+                    "feature": "Estrogen receptor",
+                    "value": "negative"
                 }
             ],
             "opposing": [
@@ -112,8 +112,8 @@
             "query": "Postoperative grade",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes"
+                    "feature": "Estrogen receptor",
+                    "value": "negative"
                 }
             ],
             "opposing": [
@@ -130,11 +130,11 @@
             ]
         },
         {
-            "query": "Lymph node metastasis",
+            "query": "Adjuvant therapy",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes"
+                    "feature": "Estrogen receptor",
+                    "value": "negative"
                 }
             ],
             "opposing": [
@@ -154,8 +154,8 @@
             "query": "LVSI",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes"
+                    "feature": "Estrogen receptor",
+                    "value": "negative"
                 }
             ],
             "opposing": [

@@ -118,7 +118,7 @@ def get_metadata(request, network_id):
 @require_auth
 def predict(request):
     if request.method != 'POST':
-        return HttpResponse(f"Only POST method is allowed, got {request.method}")
+        return HttpResponse("Only POST method is allowed")
     try:
         json_data = json.loads(request.body)
         print(json_data)
@@ -128,7 +128,6 @@ def predict(request):
             "details": str(e),
             "hint": "Check for missing commas, incorrect quotes, or trailing commas"
         }, status=400)
-
 
     try:
         query = json_data.get("query")
@@ -155,9 +154,7 @@ def predict(request):
         net_filename = os.path.splitext(os.path.basename(net_file_path))[0]
 
         # run inference (see example usage in inference.py for more info)
-        # res = resolve_inference_call(net_filename, net_file_path, query, evidence)
         infer(net_filename, net_file_path, query, evidence)
-        # print(res)
         # os.system(f"py {os.path.join(os.path.dirname(__file__), 'hugin', 'inference.py')} --filename {net_filename} --path {net_file_path} --targetname {query} --evidence {json.dumps(evidence_list)}")
         # parse hugin output: output is saved in /hugin/logs/parser_output.json
         script_dir = os.path.dirname(os.path.abspath(__file__))

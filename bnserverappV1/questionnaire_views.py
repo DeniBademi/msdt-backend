@@ -75,7 +75,8 @@ def create_question(request):
     {
         "questionnaire_id": 1,  # Required
         "text": "Question text",  # Required
-        "question_type": "text"  # Optional, defaults to "text"
+        "question_type": "text",  # Optional, defaults to "text"
+        "required": false  # Optional, defaults to false
     }
 
     Headers:
@@ -89,6 +90,7 @@ def create_question(request):
             "questionnaire_id": 1,
             "text": "Question text",
             "question_type": "text",
+            "required": false,
             "created_at": "2024-04-13T12:00:00Z"
         }
     }
@@ -101,6 +103,7 @@ def create_question(request):
         questionnaire_id = data.get('questionnaire_id')
         text = data.get('text')
         question_type = data.get('question_type', 'text')  # Default to 'text' if not specified
+        required = data.get('required', False)  # Default to False if not specified
 
         if not all([questionnaire_id, text]):
             return JsonResponse({"error": "questionnaire_id and text are required"}, status=400)
@@ -111,7 +114,8 @@ def create_question(request):
         question = Question.objects.create(
             questionnaire=questionnaire,
             text=text,
-            question_type=question_type
+            question_type=question_type,
+            required=required
         )
 
         return JsonResponse({
@@ -121,6 +125,7 @@ def create_question(request):
                 "questionnaire_id": questionnaire_id,
                 "text": question.text,
                 "question_type": question.question_type,
+                "required": question.required,
                 "created_at": question.created_at.isoformat()
             }
         }, status=201)
@@ -185,6 +190,34 @@ def submit_answers(request):
         # Verify user exists
         user_id, role = get_user_info(request)
         user = User.objects.get(id=user_id)
+
+        # Get all questions that are being answered
+        question_ids = [answer.get('question_id') for answer in answers]
+        questions = Question.objects.filter(id__in=question_ids)
+
+        # Check if all required questions are answered and have non-empty answers
+        required_questions = questions.filter(required=True)
+        answered_question_ids = set(question_ids)
+        missing_required = required_questions.exclude(id__in=answered_question_ids)
+
+        # Check for empty answers on required questions
+        empty_required = []
+        for answer in answers:
+            question_id = answer.get('question_id')
+            answer_text = answer.get('answer_text', '')
+            question = questions.filter(id=question_id, required=True).first()
+            if question and len(str(answer_text).strip()) == 0:
+                empty_required.append(question)
+
+        if empty_required:
+            missing_required = list(missing_required) + empty_required
+
+        if missing_required.exists():
+            missing_questions = [q.text for q in missing_required]
+            return JsonResponse({
+                "error": "Missing answers for required questions",
+                "missing_questions": missing_questions
+            }, status=400)
 
         # Process each answer
         saved_answers = []
@@ -308,6 +341,7 @@ def get_questions_by_questionnaire(request):
                 "id": 1,
                 "text": "Question text",
                 "question_type": "text",
+                "required": false,
                 "created_at": "2024-04-13T12:00:00Z"
             },
             ...
@@ -333,6 +367,7 @@ def get_questions_by_questionnaire(request):
                 "id": question.id,
                 "text": question.text,
                 "question_type": question.question_type,
+                "required": question.required,
                 "created_at": question.created_at.isoformat()
             })
 

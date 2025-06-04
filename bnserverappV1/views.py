@@ -154,7 +154,8 @@ def predict(request):
         net_filename = os.path.splitext(os.path.basename(net_file_path))[0]
 
         # run inference (see example usage in inference.py for more info)
-        infer(net_filename, net_file_path, query, evidence)
+        res = resolve_inference_call(net_filename, net_file_path, query, evidence)
+        print(res)
         # os.system(f"py {os.path.join(os.path.dirname(__file__), 'hugin', 'inference.py')} --filename {net_filename} --path {net_file_path} --targetname {query} --evidence {json.dumps(evidence_list)}")
         # parse hugin output: output is saved in /hugin/logs/parser_output.json
         script_dir = os.path.dirname(os.path.abspath(__file__))

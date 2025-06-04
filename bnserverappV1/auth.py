@@ -24,7 +24,7 @@ def get_user_info(request):
     # Get token from Authorization header
     auth_header = request.headers.get('Authorization')
     if not auth_header or not auth_header.startswith('Bearer '):
-        return JsonResponse({"error": "Missing or invalid Authorization header"}, status=401)
+        return None, None
 
     token = auth_header.split(' ')[1]
     decoded_token = decode_token(token)

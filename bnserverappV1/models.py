@@ -30,6 +30,7 @@ class Question(models.Model):
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE, related_name='questions')
     text = models.TextField()
     question_type = models.CharField(max_length=50)  # e.g., 'text', 'multiple_choice', etc.
+    required = models.BooleanField(default=False)  # Whether the question must be answered
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

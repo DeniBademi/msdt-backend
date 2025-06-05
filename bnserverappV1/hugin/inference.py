@@ -139,9 +139,12 @@ def bif_to_net_helper1(bif_file_path, net_name, folder_path, allow_mod=True):
     This function convert bayesian networks in bif-format into net-format suitable or hugin inference
     """
     try:
-        import pyagrum as gum #add to environment
+        import pyAgrum as gum #add to environment
     except ImportError:
-        print("pyagrum is not installed. Please install it using 'pip install pyagrum'.")
+        try:
+            import pyagrum as gum
+        except ImportError:
+            print("pyagrum is not installed. Please install it using 'pip install pyagrum'.")
         return None
 
     #load the bif file

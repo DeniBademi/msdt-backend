@@ -12,7 +12,7 @@ from .variable_elimination.run import Run
 import os
 from .get_metadata import get_metadata_for_network
 from .get_metadata_bif import get_metadata_for_network_bif
-from .hugin.inference import infer
+from .hugin.inference import infer, bif_to_net
 from .hugin import hugin_output_parser
 from .auth import require_auth, get_token, decode_token
 import subprocess
@@ -149,12 +149,32 @@ def predict(request):
         except UploadedModel.DoesNotExist:
             return JsonResponse({"error": f"Network '{network_id}' not found in database"}, status=404)
 
+         # what steven changed ------------------------------------------
+
         # Get the full file path
-        net_file_path = model_instance.file.path
-        net_filename = os.path.splitext(os.path.basename(net_file_path))[0]
+        file_path = model_instance.file.path
+        file_name = os.path.splitext(os.path.basename(file_path))[0]
+        file_ext = os.path.splitext(file_path)[1].lower()
+
+        if file_ext == '.bif':
+            # Convert .bif to .net
+            bif_file_path = file_path
+            converted_filename = os.path.splitext(os.path.basename(file_path))[0] + "_converted.net"
+            folder_path = os.path.dirname(file_path)
+            file_path = os.path.join(folder_path, converted_filename)
+            file_name = converted_filename
+
+            # Call your bif_to_net converter
+            bif_to_net(bif_file_path, converted_filename, folder_path)
+        elif file_ext == '.net':
+            file_path = file_path
+        else:
+            return JsonResponse({"error": f"Unsupported file type: {file_ext}"}, status=400)
+
+        # --------------------------------------------------------
 
         # run inference (see example usage in inference.py for more info)
-        res = resolve_inference_call(net_filename, net_file_path, query, evidence)
+        res = resolve_inference_call(file_name, file_path, query, evidence)
         print(res)
         # os.system(f"py {os.path.join(os.path.dirname(__file__), 'hugin', 'inference.py')} --filename {net_filename} --path {net_file_path} --targetname {query} --evidence {json.dumps(evidence_list)}")
         # parse hugin output: output is saved in /hugin/logs/parser_output.json
@@ -210,7 +230,13 @@ def predict_MPE(request):
         net_filename = os.path.splitext(os.path.basename(net_file_path))[0]
 
         # run inference
-        import pyagrum as gum
+        try:
+            import pyAgrum as gum
+        except ImportError:
+            try:
+                import pyagrum as gum
+            except ImportError:
+                return JsonResponse({"error": "pyAgrum or pyagrum is not installed. Please install it using 'pip install pyAgrum' or 'pip install pyagrum'."}, status=500)
 
         bn = gum.loadBN(net_file_path)
         ie = gum.LazyPropagation(bn)
@@ -234,13 +260,25 @@ def predict_MPE(request):
 def upload_model(request):
     if request.method == "POST" and request.FILES.get("file"):
         uploaded_file = request.FILES["file"]
-        file_path = os.path.splitext(uploaded_file.name)[1].lower()
+        file_ext = os.path.splitext(uploaded_file.name)[1].lower()
 
-        if file_path not in [".bif", ".net"]:
+        if file_ext not in [".bif", ".net"]:
             return HttpResponse("Invalid file type. Only .bif and .net files are allowed.", status=400)
 
         # Get the name from the form data
         name = request.POST.get("name", "Unnamed Network")
+
+        if file_ext == '.bif':
+            # Convert .bif to .net
+            bif_file_path = uploaded_file.name
+            converted_filename = os.path.splitext(os.path.basename(uploaded_file.name))[0] + "_converted.net"
+            folder_path = os.path.dirname(uploaded_file.name)
+            file_path = os.path.join(folder_path, converted_filename)
+            file_name = converted_filename
+
+            # Call your bif_to_net converter
+            bif_to_net(bif_file_path, converted_filename, folder_path)
+            uploaded_file = file_path
 
         # Save file to database
         model_instance = UploadedModel(file=uploaded_file, name=name)

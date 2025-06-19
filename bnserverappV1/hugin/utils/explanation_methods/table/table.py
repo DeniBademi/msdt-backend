@@ -9,13 +9,7 @@ from .level_3 import level3
 
 def table(domain, target, evidence, dummy):
     # original function starts here
-    print("domain:",domain)
-    esign = esig(domain, target, evidence, dummy)
-    print("esign:",esign)
-    dominant, consistent, conflicting, mixed_consistent, mixed_conflicting = level1(domain, esign, target)
-    XI = markov_blanket(domain, target, evidence, esign, dummy)
-    lvl2_og, lvl2_new = level2(domain, evidence, esign, XI)
-    lvl3 = level3(domain, esign, XI, dummy)
+
     #setup_evidence(domain,target,evidence)
     print("Level 1")
     print("------------------------------------------------------------------------------")
@@ -24,6 +18,14 @@ def table(domain, target, evidence, dummy):
     print("The chance of", target.get_label(), "being", target.get_state_label(1), "=", target.get_belief(1))
     print("------------------------------------------------------------------------------")
     print("What are the factors that support above prediction of", target.get_label() + "?")
+
+    print("domain:",domain)
+    esign = esig(domain, target, evidence, dummy)
+    print("esign:",esign)
+    dominant, consistent, conflicting, mixed_consistent, mixed_conflicting = level1(domain, esign, target)
+    XI = markov_blanket(domain, target, evidence, esign, dummy)
+    lvl2_og, lvl2_new = level2(domain, evidence, esign, XI)
+    lvl3 = level3(domain, esign, XI, dummy)
 
     for i in dominant:
         print(i.get_label(), "=", i.get_state_label(evidence[i]), "(Very important)")

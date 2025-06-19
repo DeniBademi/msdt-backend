@@ -1,11 +1,12 @@
 from django.urls import path
 from . import views
-from . import questionnaire_views
+from .side_views import auth_views, questionnaire_views
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("signup/", views.signup, name="signup"), # http://127.0.0.1:8000/api/signup
-    path("login/", views.login, name="login"),
+    path("", auth_views.index, name="index"),
+    path("signup/", auth_views.signup, name="signup"), # http://127.0.0.1:8000/api/signup
+    path("login/", auth_views.login, name="login"),
+    path("change-password/", auth_views.change_password, name="change_password"),
     path("upload_model/", views.upload_model, name="upload_model"),
     path("getmetadata/<str:network_id>", views.get_metadata, name="getmetadata"),
     path("predict/", views.predict, name="predict"),

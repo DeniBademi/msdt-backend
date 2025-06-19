@@ -20,7 +20,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(message)s",
     handlers=[
-        logging.FileHandler("log.txt", mode='w'), # Write logs to log.txt 
+        logging.FileHandler("log.txt", mode='w'), # Write logs to log.txt
         logging.StreamHandler() # Also print Logs to console
     ]
 )
@@ -34,17 +34,17 @@ class Factor():
     """
 
     # Static variable to keep track of Factor numbers
-    count = 0 
+    count = 0
 
     def __init__(self, variables, table, product = False):
         """
         Construct a Factor  from a list of variables and a probablility table
         """
-        # List of variables (in the form of a String) 
+        # List of variables (in the form of a String)
         self.variables = variables
 
         # Probablility distribution table
-        self.table = table 
+        self.table = table
 
         # After multiplying factors in the function "multiply()", we obtain a new factor.
         # But this new factor is not finished, as has not gone through the marginalization yet
@@ -52,7 +52,7 @@ class Factor():
         if (product):
             self.index = Factor.count
 
-        # For all other cases where we create a new factor, we increase the index number    
+        # For all other cases where we create a new factor, we increase the index number
         else:
             self.index = Factor.count
 
@@ -60,7 +60,7 @@ class Factor():
             Factor.count += 1
 
         # Write to the log file everytime a new factor is created
-        logger.debug(f"Created factor {self.index}: \n {self.table} \n")    
+        logger.debug(f"Created factor {self.index}: \n {self.table} \n")
 
 
     def __str__(self):
@@ -72,14 +72,14 @@ class Factor():
         length = len(self.variables)
 
         # In case the factor has no variables
-        if length <1: 
+        if length <1:
             variables_to_string += "NONE"
 
         else:
             variables_to_string += self.variables[0]
 
             # If it contains more than 1 variable, then add the variables together with a , in between
-            if (length >1): 
+            if (length >1):
                 for var in self.variables[1:]:
                     variables_to_string +=  ", " + var
 
@@ -99,11 +99,11 @@ class Factor():
 
         """
 
-        # In case the factor only contains one variable, just remove that variable from its list 
+        # In case the factor only contains one variable, just remove that variable from its list
         if len(self.variables)==1:
             self.variables.remove(var)
             return self
-        
+
         else:
             # Copy the table of the current factor and reduce it on the observed variable
             table = self.table[self.table[var] == val]
@@ -114,9 +114,9 @@ class Factor():
 
             # Write an update to the log.txt file
             logger.debug(f"Reducing factor {self.index} on {var} = {val}")
-            
+
             return Factor(variables,table)
-        
+
 
     def product(self, other_factor):
         """
@@ -142,7 +142,7 @@ class Factor():
 
         # Updating the log.txt file
         logger.debug(f"Multiplying factor {self.index} with factor {other_factor.index}")
-        
+
         # Merge the two tables on the common variables
         merged_table = pd.merge(
             self.table,
@@ -156,7 +156,7 @@ class Factor():
 
         # Drop old probability columns
         merged_table = merged_table.drop(columns=['prob_x', 'prob_y'])
-        
+
         # Collect all the variables for the new factor
         all_variables = list(set(self.variables + other_factor.variables))
 
@@ -182,7 +182,7 @@ class Factor():
 
         # Update the log.txt file
         logger.debug(f"Marginalizing Factor {self.index} on {var_to_eliminate}")
-        
+
         # Group the remaining variables by summing over the target
         remaining_vars = [v for v in self.variables if v != var_to_eliminate]
         marginalized_table = (
@@ -236,7 +236,7 @@ class VariableElimination():
             else:
                 logger.debug(f"Variable {variable} has parents: {parents}")
                 list_of_variables = [variable] + parents
-                factor = Factor(list_of_variables, self.network.probabilities.get(variable))  
+                factor = Factor(list_of_variables, self.network.probabilities.get(variable))
             self.factor_list.append(factor)
             factor_index+=1
 
@@ -248,15 +248,15 @@ class VariableElimination():
 
         string = "\n Factor List:"
         for f in factor_list:
-            string += "\n" + str(f) 
-        return string+"\n"    
-    
+            string += "\n" + str(f)
+        return string+"\n"
+
 
     def reduce_observed(self, observed):
         """
         Reduce factors by observed variables.
 
-        Input: 
+        Input:
             observed: Dictionary with the variable as the key and the observed value as its item/value
         """
 
@@ -278,7 +278,7 @@ class VariableElimination():
                     logger.debug(f"Factor {f} contains this observed variable.")
 
                     # Create a new reduced factor and add the old factor to the removal list
-                    reduced_factor = f.reduce(obs_var, obs_value)   
+                    reduced_factor = f.reduce(obs_var, obs_value)
                     factors_to_remove.append(f)
 
                     # If the reduced factor still has variables, add it to the factor list
@@ -289,7 +289,7 @@ class VariableElimination():
                     # Otherwise just remove the factor
                     else:
                         logger.debug(f"Factor f{f.index} is empty now and will be removed")
-        
+
 
             # Removing the old factors by iterating over the removal list
             for f in factors_to_remove:
@@ -298,11 +298,11 @@ class VariableElimination():
             # Adding the new factors
             for a in add_list:
                 # Only if the factor is not empty, add it to the factor list
-                if not "NONE" in a.variables: 
-                    self.factor_list.append(a)   
+                if not "NONE" in a.variables:
+                    self.factor_list.append(a)
 
         # Update the log.txt file
-        logger.debug(f"Updated factor list after reduction: {self.str(self.factor_list)}")             
+        logger.debug(f"Updated factor list after reduction: {self.str(self.factor_list)}")
 
 
     def eliminate_variable(self, variable):
@@ -316,7 +316,7 @@ class VariableElimination():
         if not relevant_factors:
             logger.warning(f"No factors found containing variable {variable}")
             return
-        
+
 
         # Combine factors using product
         new_factor = []
@@ -340,7 +340,7 @@ class VariableElimination():
 
         # A removal list (to prevent errors that occur when iterating over a list and removing items at the same time)
         factors_to_remove = [f for f in self.factor_list if f in relevant_factors]
-        
+
         # Removing the old factors
         for f in factors_to_remove:
             self.factor_list.remove(f)
@@ -350,8 +350,8 @@ class VariableElimination():
         if new_factor:
             self.factor_list.append(new_factor)
             logger.debug(f"Added new factor {new_factor}")
-    
-        logger.debug(f"\nUpdated factor list: {self.str(self.factor_list)}")    
+
+        logger.debug(f"\nUpdated factor list: {self.str(self.factor_list)}")
 
 
     def normalize_result(self):
@@ -367,7 +367,7 @@ class VariableElimination():
         if length == 0:
             logger.warning("Something went wrong... There is no factor left...")
             return None
-        
+
         elif length == 1:
             new_factor = self.factor_list[0]
 
@@ -377,7 +377,7 @@ class VariableElimination():
 
             for f in self.factor_list[1:]:
                 combined_factor = combined_factor.product(f)
-                logger.debug(f"Adding {combined_factor}") 
+                logger.debug(f"Adding {combined_factor}")
                 self.factor_list.append(combined_factor)
 
             new_factor = Factor(combined_factor.variables, combined_factor.table)
@@ -390,11 +390,11 @@ class VariableElimination():
             logger.warning("Error: Total probability sums to 0, cannot normalize.")
 
         return new_factor
-    
+
 
     def create_parent_list(self):
         """
-        Creating a list of 
+        Creating a list of
 
         Input:
             self:           This factor
@@ -405,20 +405,20 @@ class VariableElimination():
 
         """
         # Creating the a list that contains the parent nodes
-        parent_list = [] 
-        
+        parent_list = []
+
         for variable in self.network.parents:
             parents = self.network.parents.get(variable)
             if not parents:
                 pass
-            else: 
+            else:
                 for element in parents:
                     parent_list.append(element)
 
 
         return parent_list
-    
-           
+
+
     def choose_elim_order(self, query, heuristic):
         """
         Prioritize elimination order with either leaf nodes first or no heuristic
@@ -459,11 +459,11 @@ class VariableElimination():
 
         for o in observed:
             elim_order.remove(o)
-        
-        for element in elim_order:
-            self.eliminate_variable(element) 
 
-        result_factor = self.normalize_result() 
+        for element in elim_order:
+            self.eliminate_variable(element)
+
+        result_factor = self.normalize_result()
 
         if result_factor is None:
             return None
@@ -506,21 +506,20 @@ class VariableElimination():
 
         # for o in observed:
         #     elim_order.remove(o)
-        
+
         # logger.info(f"Elim order after removal: {elim_order} ")
 
         # logger.info(f"\n\n========== Start Variable Elimination ==========\n")
         # logger.info(f"We now have factors: {self.str(self.factor_list)}")
-        # logger.info(f"Variable elimination order: {elim_order}")  
+        # logger.info(f"Variable elimination order: {elim_order}")
 
         # for element in elim_order:
         #     logger.info(f"\nEliminating variable {element}\n-------------------------------------------------------------------------")
-        #     self.eliminate_variable(element) 
+        #     self.eliminate_variable(element)
 
-        # result_factor = self.normalize_result() 
+        # result_factor = self.normalize_result()
         # query_distribution = result_factor.table
         # logger.info(f"\n\n========== Solution ==========\n")
 
         # logger.info(f"Final probablity distribution of {query}: \n{query_distribution}")
 
- 

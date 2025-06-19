@@ -6,8 +6,8 @@
     },
     "supporting_factors": [
         {
-            "feature": "Estrogen receptor",
-            "value": "negative",
+            "feature": "Enlarged nodes CT",
+            "value": "yes",
             "importance": "Very important"
         }
     ],
@@ -19,29 +19,29 @@
     ],
     "immediate_causes": [
         {
-            "feature": "Myometrial invasion",
-            "increase_percent": 7.0,
-            "state": "ge_50"
-        },
-        {
-            "feature": "Preoperative grade",
-            "increase_percent": 26.7,
-            "state": "grade_3"
-        },
-        {
             "feature": "Postoperative grade",
-            "increase_percent": 39.5,
+            "increase_percent": 11.3,
             "state": "grade_3"
         },
         {
             "feature": "Adjuvant therapy",
-            "increase_percent": 8.0,
+            "increase_percent": 8.6,
             "state": "chemotx"
         },
         {
             "feature": "LVSI",
-            "increase_percent": 14.3,
+            "increase_percent": 13.2,
             "state": "yes"
+        },
+        {
+            "feature": "Myometrial invasion",
+            "increase_percent": 5.9,
+            "state": "ge_50"
+        },
+        {
+            "feature": "Preoperative grade",
+            "increase_percent": 7.2,
+            "state": "grade_3"
         }
     ],
     "level3_explanations": [
@@ -49,50 +49,8 @@
             "query": "Endometrium in cervical cytology",
             "supporting": [
                 {
-                    "feature": "Estrogen receptor",
-                    "value": "negative (Very important)"
-                }
-            ],
-            "opposing": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ],
-            "partially_supporting": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ]
-        },
-        {
-            "query": "Myometrial invasion",
-            "supporting": [
-                {
-                    "feature": "Estrogen receptor",
-                    "value": "negative"
-                }
-            ],
-            "opposing": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ],
-            "partially_supporting": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ]
-        },
-        {
-            "query": "Preoperative grade",
-            "supporting": [
-                {
-                    "feature": "Estrogen receptor",
-                    "value": "negative"
+                    "feature": "Enlarged nodes CT",
+                    "value": "yes (Very important)"
                 }
             ],
             "opposing": [
@@ -112,8 +70,8 @@
             "query": "Postoperative grade",
             "supporting": [
                 {
-                    "feature": "Estrogen receptor",
-                    "value": "negative"
+                    "feature": "Enlarged nodes CT",
+                    "value": "yes"
                 }
             ],
             "opposing": [
@@ -133,8 +91,8 @@
             "query": "Adjuvant therapy",
             "supporting": [
                 {
-                    "feature": "Estrogen receptor",
-                    "value": "negative"
+                    "feature": "Enlarged nodes CT",
+                    "value": "yes"
                 }
             ],
             "opposing": [
@@ -154,8 +112,50 @@
             "query": "LVSI",
             "supporting": [
                 {
-                    "feature": "Estrogen receptor",
-                    "value": "negative"
+                    "feature": "Enlarged nodes CT",
+                    "value": "yes"
+                }
+            ],
+            "opposing": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ],
+            "partially_supporting": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ]
+        },
+        {
+            "query": "Myometrial invasion",
+            "supporting": [
+                {
+                    "feature": "Enlarged nodes CT",
+                    "value": "yes"
+                }
+            ],
+            "opposing": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ],
+            "partially_supporting": [
+                {
+                    "feature": "None",
+                    "value": "None"
+                }
+            ]
+        },
+        {
+            "query": "Preoperative grade",
+            "supporting": [
+                {
+                    "feature": "Enlarged nodes CT",
+                    "value": "yes"
                 }
             ],
             "opposing": [

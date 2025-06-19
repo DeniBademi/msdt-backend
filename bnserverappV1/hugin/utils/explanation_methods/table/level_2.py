@@ -38,7 +38,18 @@ def markov_blanket(domain, target, evidence, esign, dummy):
 
 def level2(domain, evidence, esign, XI):
     """
-        Determines the change of all markov blanket variables after the evidence
+    Calculate the change in probability distribution for all Markov blanket variables after evidence is applied.
+
+    Args:
+        domain: The Bayesian network domain
+        evidence (dict): Dictionary of evidence nodes and their states
+        esign (dict): Dictionary of significant evidence nodes and their states
+        XI (list): List of nodes in the Markov blanket to analyze
+
+    Returns:
+        tuple: Two dictionaries containing:
+               - level2_og: Original probability distributions before evidence
+               - level2_current: Current probability distributions after evidence
     """
     level2_og = {}
     level2_current = {}

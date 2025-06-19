@@ -117,6 +117,19 @@ def direction_label(domain, esign, target, target_state, e):
             return "donf"
 
 def delta_t_e(domain, esign, target, target_state, e):
+    """
+    Calculate the difference in probability between the target state with and without evidence e.
+
+    Args:
+        domain: The Bayesian network domain
+        esign (dict): Dictionary of evidence nodes and their states
+        target: The target node
+        target_state (int): The state of the target node to consider
+        e: The evidence node to remove
+
+    Returns:
+        float: The difference in probability P(T|E) - P(T|E-e)
+    """
     evidence_copy = dict(esign)
     ptE = P(domain, target, evidence_copy, target_state)
     del evidence_copy[e]
@@ -124,12 +137,38 @@ def delta_t_e(domain, esign, target, target_state, e):
     return ptE - ptEe
 
 def delta_t_E(domain, esign, target, target_state, e):
+    """
+    Calculate the difference in probability between the target state with evidence and its prior.
+
+    Args:
+        domain: The Bayesian network domain
+        esign (dict): Dictionary of evidence nodes and their states
+        target: The target node
+        target_state (int): The state of the target node to consider
+        e: The evidence node (not used in calculation but kept for consistency)
+
+    Returns:
+        float: The difference in probability P(T|E) - P(T)
+    """
     evidence_copy = dict(esign)
     ptE = P(domain, target, evidence_copy, target_state)
     pt = P(domain, target, target_state=target_state)
     return ptE - pt
 
 def direction_of_change1(domain, esign, target, e):
+    """
+    Determine the direction of change in probability for all states of the target node.
+
+    Args:
+        domain: The Bayesian network domain
+        esign (dict): Dictionary of evidence nodes and their states
+        target: The target node
+        e: The evidence node to analyze
+
+    Returns:
+        str: One of "dcons" (consistent), "dconf" (conflicting), or "dmix" (mixed)
+             based on how the evidence affects the target's probabilities
+    """
     if all((delta_t_E(domain, esign, target, t, e) > 0 and delta_t_e(domain, esign, target, t, e) > 0) or (
             delta_t_E(domain, esign, target, t, e) < 0 and delta_t_e(domain, esign, target, t, e) < 0)
            for t in range(target.get_number_of_states())):
@@ -142,6 +181,20 @@ def direction_of_change1(domain, esign, target, e):
         return "dmix"
 
 def conflict_analysis_direction(domain, esign, target):
+    """
+    Analyze the direction of change for all evidence nodes and group them accordingly.
+
+    Args:
+        domain: The Bayesian network domain
+        esign (dict): Dictionary of evidence nodes and their states
+        target: The target node
+
+    Returns:
+        tuple: Three lists containing evidence nodes that are:
+               - dcons: consistently affecting the target
+               - dconf: conflicting in their effect on the target
+               - dmix: having mixed effects on the target
+    """
     dcons = []
     dconf = []
     dmix = []

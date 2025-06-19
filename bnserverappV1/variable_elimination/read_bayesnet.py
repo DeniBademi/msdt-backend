@@ -76,7 +76,7 @@ class BayesNet():
             #create dataFrame to store the variables
             df = pd.DataFrame(columns=[variable] + parents + ['prob'])
 
-            #loop over the lines until a line is the same as "}" 
+            #loop over the lines until a line is the same as "}"
             with open(filename, 'r') as file:
                 for i in range(line_number + 1):
                     file.readline()
@@ -84,7 +84,7 @@ class BayesNet():
                     if '}' in line:
                         # Done reading this probability distribution
                         break
-                    
+
                     # Get the values for the parents
                     comma_sep_values = line.split('(')[1].split(')')[0]
                     values = [v.strip() for v in comma_sep_values.split(',')]

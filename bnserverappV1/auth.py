@@ -2,14 +2,39 @@ from functools import wraps
 from django.http import JsonResponse
 import jwt
 from .models import User
+from datetime import datetime, timedelta, timezone
 
 def get_token(user: User) -> str:
-    return jwt.encode(dict(username=user.username, role=user.role, user_id=user.id), "secret", algorithm="HS256")
+    """
+    Generate a JWT token for the given user.
+
+    Args:
+        user (User): The user object containing username, role and id
+
+    Returns:
+        str: A JWT token encoded with the user's information
+    """
+    return jwt.encode(dict(
+        username=user.username,
+        role=user.role,
+        exp=datetime.now(tz=timezone.utc) + timedelta(days=7),
+        user_id=user.id), "secret", algorithm="HS256")
 
 def decode_token(token: str) -> dict:
+    """
+    Decode and verify a JWT token.
+
+    Args:
+        token (str): The JWT token to decode
+
+    Returns:
+        dict: The decoded token payload if valid, None if invalid
+    """
     try:
         return jwt.decode(token, "secret", algorithms=["HS256"])
     except jwt.InvalidTokenError:
+        return None
+    except jwt.ExpiredSignatureError:
         return None
 
 def get_user_info(request):
@@ -66,6 +91,15 @@ def require_admin(view_func):
     return wrapper
 
 def require_admin_token(token: str):
+    """
+    Verify if a token belongs to an admin user.
+
+    Args:
+        token (str): The JWT token to verify
+
+    Returns:
+        bool: True if the token is valid and belongs to an admin, False otherwise
+    """
     decoded_token = decode_token(token)
     user_id = decoded_token.get('user_id')
     role = decoded_token.get('role')

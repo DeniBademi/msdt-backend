@@ -1,78 +1,16 @@
-from django.contrib.auth.hashers import make_password, check_password
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import User, UploadedModel
-import jwt
-from .forms import UploadFileForm
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from .variable_elimination.run import Run
+from .models import UploadedModel
 import os
-from .get_metadata import get_metadata_for_network
-from .get_metadata_bif import get_metadata_for_network_bif
-from .hugin.inference import infer, bif_to_net
+from .metadata_extractor import get_metadata_for_network
+from .hugin.inference import bif_to_net
 from .hugin import hugin_output_parser
-from .auth import require_auth, get_token, decode_token
+from .auth import require_auth
 import subprocess
-from globals import PYTHONPATH
+from .globals import PYTHONPATH
 
 
-
-
-#view
-def index(request):
-    return HttpResponse("Bayesian Network Server is running.")
-
-@csrf_exempt
-def login(request):
-    if request.method != 'POST':
-        return HttpResponse("Only POST method is allowed")
-
-    #This gathers the data: {'username': [name], 'password': [pasword]}
-    json_data = json.loads(request.body)
-
-    try:
-        user = User.objects.get(username=json_data['username'])
-        if not check_password(json_data['password'], user.password):
-            raise User.DoesNotExist
-        token = get_token(user)
-        out = dict(
-            username = user.username,
-            user_id = user.id,
-            role = user.role,
-            token = token
-        )
-
-    except User.DoesNotExist:
-        return JsonResponse(dict(
-            error = "Invalid username or password"
-        ), status=401)
-
-    return JsonResponse(out)
-
-@csrf_exempt
-def signup(request):
-    if request.method != 'POST':
-        return HttpResponse("Only POST method is allowed")
-
-    json_data = json.loads(request.body)
-
-    new_user = User(
-        username = json_data['username'],
-        password = make_password(json_data['password']),
-        role = "user"
-    )
-
-    new_user.save()
-
-    out = dict(
-        username = new_user.username,
-        role = new_user.role,
-        token = get_token(new_user)
-    )
-    return JsonResponse(out)
 
 @csrf_exempt
 @require_auth
@@ -92,12 +30,8 @@ def get_metadata(request, network_id):
                 "error": "Network file not found."
             }, status=404)
 
-        # Determine which metadata extraction function to use based on file extension
-        file_extension = os.path.splitext(file_path)[1].lower()
-        if file_extension == '.bif':
-            metadata = get_metadata_for_network_bif(file_path)
-        else:  # .net files
-            metadata = get_metadata_for_network(file_path)
+        # Get metadata using the unified extractor
+        metadata = get_metadata_for_network(file_path)
 
         return JsonResponse({
             "id": network_id,
@@ -109,6 +43,10 @@ def get_metadata(request, network_id):
         return JsonResponse({
             "error": "Network not found"
         }, status=404)
+    except ValueError as e:
+        return JsonResponse({
+            "error": f"Unsupported file format: {str(e)}"
+        }, status=400)
     except Exception as e:
         return JsonResponse({
             "error": f"Failed to get metadata: {str(e)}"
@@ -117,6 +55,27 @@ def get_metadata(request, network_id):
 @csrf_exempt
 @require_auth
 def predict(request):
+    """
+    Perform inference on a Bayesian network.
+
+    Endpoint: POST /predict/
+
+    Request Body:
+    {
+        "network": "string",  # Network ID
+        "query": "string",    # Target node name
+        "evidence": {         # Dictionary of evidence nodes and their states
+            "node1": state1,
+            "node2": state2
+        }
+    }
+
+    Headers:
+        Authorization: Bearer <jwt_token>
+
+    Returns:
+        JsonResponse: The inference results from the Hugin parser
+    """
     if request.method != 'POST':
         return HttpResponse("Only POST method is allowed")
     try:
@@ -195,6 +154,33 @@ def predict(request):
 @csrf_exempt
 @require_auth
 def predict_MPE(request):
+    """
+    Find the Most Probable Explanation (MPE) in a Bayesian network.
+
+    Endpoint: POST /predict_MPE/
+
+    Request Body:
+    {
+        "network": "string",  # Network ID
+        "evidence": {         # Dictionary of evidence nodes and their states
+            "node1": state1,
+            "node2": state2
+        }
+    }
+
+    Headers:
+        Authorization: Bearer <jwt_token>
+
+    Returns:
+        JsonResponse: On success:
+            {
+                "MPE": {
+                    "node1": state1,
+                    "node2": state2,
+                    ...
+                }
+            }
+    """
     if request.method != 'POST':
         return HttpResponse("Only POST method is allowed")
     try:
@@ -255,12 +241,38 @@ def predict_MPE(request):
     except Exception as e:
         return JsonResponse({"error": str(e)})
 
-@csrf_exempt  # Use this for development (better: use Angular's CSRF handling)
+@csrf_exempt
 @require_auth
 def upload_model(request):
+    """
+    Upload a Bayesian network model file.
+
+    Endpoint: POST /upload_model/
+
+    Request Body (multipart/form-data):
+        file: .bif or .net file
+        name: string (optional, defaults to "Unnamed Network")
+
+    Headers:
+        Authorization: Bearer <jwt_token>
+
+    Returns:
+        JsonResponse: On success:
+            {
+                "message": "Upload successful",
+                "file_url": "string",
+                "network_id": int,
+                "name": "string"
+            }
+    """
     if request.method == "POST" and request.FILES.get("file"):
         uploaded_file = request.FILES["file"]
         file_ext = os.path.splitext(uploaded_file.name)[1].lower()
+
+        # File size validation (5MB limit)
+        MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
+        if uploaded_file.size > MAX_FILE_SIZE:
+            return JsonResponse({"error": "File too large. Max size is 5MB."}, status=400)
 
         if file_ext not in [".bif", ".net"]:
             return HttpResponse("Invalid file type. Only .bif and .net files are allowed.", status=400)
@@ -296,6 +308,25 @@ def upload_model(request):
 @csrf_exempt
 @require_auth
 def get_networks(request):
+    """
+    Get a list of all uploaded Bayesian networks.
+
+    Endpoint: GET /networks/
+
+    Headers:
+        Authorization: Bearer <jwt_token>
+
+    Returns:
+        JsonResponse: {
+            "networks": [
+                {
+                    "id": int,
+                    "name": "string"
+                },
+                ...
+            ]
+        }
+    """
     if request.method != 'GET':
         return HttpResponse("Only GET method is allowed")
 
@@ -311,7 +342,6 @@ def get_networks(request):
         })
 
     return JsonResponse({"networks": networks_list})
-
 
 def resolve_inference_call(net_filename, net_file_path, query, evidence):
     print("PYTHONPATH", PYTHONPATH)

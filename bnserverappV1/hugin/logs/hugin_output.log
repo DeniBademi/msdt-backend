@@ -1,18 +1,18 @@
-domain: <pyhugin96.Domain object at 0x10068d300>
-domain: <pyhugin96.Domain object at 0x10068d300>
-target: <pyhugin96.Node object at 0x100723850>
-evidence: {<pyhugin96.Node object at 0x1007236d0>: 1}
-dummy: <pyhugin96.Node object at 0x100726340>
+domain: <pyhugin96.Domain object at 0x109ce0f40>
+domain: <pyhugin96.Domain object at 0x109ce0f40>
+target: <pyhugin96.Node object at 0x109dcb970>
+evidence: {<pyhugin96.Node object at 0x109dcbb20>: 1}
+dummy: <pyhugin96.Node object at 0x109dcd460>
 ADSADA
 alpha: 0.9
-esign: {<pyhugin96.Node object at 0x1007236d0>: 1}
+esign: {<pyhugin96.Node object at 0x109dcbb20>: 1}
 LOL
 Level 1
 ------------------------------------------------------------------------------
 The chance of Endometrium in cervical cytology being yes = 0.036697249999999994
 ------------------------------------------------------------------------------
 What are the factors that support above prediction of Endometrium in cervical cytology?
-Estrogen receptor = negative (Very important)
+Enlarged nodes CT = yes (Very important)
 ------------------------------------------------------------------------------
 What are the factors that do not support above prediction of Endometrium in cervical cytology?
 None
@@ -21,41 +21,41 @@ Level 2
 ------------------------------------------------------------------------------
 How does the model utilize the above factors to predict Endometrium in cervical cytology? 
 As the immediate causes of  Endometrium in cervical cytology the model uses:
-Myometrial invasion :  7.0 % increase in ge_50
-Preoperative grade :  26.7 % increase in grade_3
-Postoperative grade :  39.5 % increase in grade_3
-Adjuvant therapy :  8.0 % increase in chemotx
-LVSI :  14.3 % increase in yes
+Postoperative grade :  11.3 % increase in grade_3
+Adjuvant therapy :  8.6 % increase in chemotx
+LVSI :  13.2 % increase in yes
+Myometrial invasion :  5.9 % increase in ge_50
+Preoperative grade :  7.2 % increase in grade_3
 ------------------------------------------------------------------------------
 Level 3
 ------------------------------------------------------------------------------
-What are the factors that support above prediction of Myometrial invasion?
-Estrogen receptor = negative
-------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Myometrial invasion?
-None
-------------------------------------------------------------------------------
-What are the factors that support above prediction of Preoperative grade?
-Estrogen receptor = negative
-------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Preoperative grade?
-None
-------------------------------------------------------------------------------
 What are the factors that support above prediction of Postoperative grade?
-Estrogen receptor = negative
+Enlarged nodes CT = yes
 ------------------------------------------------------------------------------
 What are the factors that do not support above prediction of Postoperative grade?
 None
 ------------------------------------------------------------------------------
 What are the factors that support above prediction of Adjuvant therapy?
-Estrogen receptor = negative
+Enlarged nodes CT = yes
 ------------------------------------------------------------------------------
 What are the factors that do not support above prediction of Adjuvant therapy?
 None
 ------------------------------------------------------------------------------
 What are the factors that support above prediction of LVSI?
-Estrogen receptor = negative
+Enlarged nodes CT = yes
 ------------------------------------------------------------------------------
 What are the factors that do not support above prediction of LVSI?
+None
+------------------------------------------------------------------------------
+What are the factors that support above prediction of Myometrial invasion?
+Enlarged nodes CT = yes
+------------------------------------------------------------------------------
+What are the factors that do not support above prediction of Myometrial invasion?
+None
+------------------------------------------------------------------------------
+What are the factors that support above prediction of Preoperative grade?
+Enlarged nodes CT = yes
+------------------------------------------------------------------------------
+What are the factors that do not support above prediction of Preoperative grade?
 None
 ------------------------------------------------------------------------------

@@ -303,7 +303,7 @@ if __name__ == "__main__":
                         type=str, help='Name of the Bayesian network file',
                         default="asia_fixed")
     parser.add_argument('--path', type=str, help='Path to the Bayesian network file',
-                        default="/Users/steve/IdeaProjects/programming/repository_MSDT/backend/bnserver/bnserverappV1/hugin/asia.net")
+                        default="/Users/deniszahariev/Desktop/Uni/Modern Software Development Techniques/project/backend/bnserver/upload_model/asia.net")
     parser.add_argument('--targetname', type=str, help='Name of the target node',
                         default="bronc")
     parser.add_argument('--evidence', type=str, help='Evidence in the format "node1:state1,node2:state2" in a json string',

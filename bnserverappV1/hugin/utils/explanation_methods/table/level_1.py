@@ -50,10 +50,6 @@ def esig(domain, target, evidence, dummy, a=None):
         Returns:
             dictionary: The significant evidence
     """
-    print("domain:",domain)
-    print("target:",target)
-    print("evidence:",evidence)
-    print("dummy:",dummy)
     evidence = remove_dseparated(domain, target, evidence, dummy)
     esig = {}
     if a == None:
@@ -62,7 +58,6 @@ def esig(domain, target, evidence, dummy, a=None):
     keys = list(evidence.keys())
     while len(keys) > len(esig):
         if c < len(a):
-            print("ADSADA")
             alpha = a[c]
         else:
             print("ran out of alpha's")

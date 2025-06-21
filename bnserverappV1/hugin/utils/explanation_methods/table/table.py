@@ -1,16 +1,16 @@
 import os
 from ...commons import (
-    max_difference
+    max_difference,
+    reset
 )
-from .level_1 import esig, level1
+from .level_1 import esig, level1, P
 from .level_2 import level2, markov_blanket
 from .level_3 import level3
 
 
 def table(domain, target, evidence, dummy):
-    # original function starts here
 
-    #setup_evidence(domain,target,evidence)
+
     print("Level 1")
     print("------------------------------------------------------------------------------")
     # print("The chance of", target.get_label(), "being", target.get_state_label(0) ,"=", target.get_belief(0))
@@ -19,9 +19,8 @@ def table(domain, target, evidence, dummy):
     print("------------------------------------------------------------------------------")
     print("What are the factors that support above prediction of", target.get_label() + "?")
 
-    print("domain:",domain)
+
     esign = esig(domain, target, evidence, dummy)
-    print("esign:",esign)
     dominant, consistent, conflicting, mixed_consistent, mixed_conflicting = level1(domain, esign, target)
     XI = markov_blanket(domain, target, evidence, esign, dummy)
     lvl2_og, lvl2_new = level2(domain, evidence, esign, XI)

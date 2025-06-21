@@ -226,7 +226,25 @@ def predict_MPE(request):
 
         bn = gum.loadBN(net_file_path)
         ie = gum.LazyPropagation(bn)
-        ie.setEvidence(evidence)
+        print("evidence", evidence)
+        if not evidence:
+            evidence = {}
+            for variable in bn.names():
+                dist = ie.posterior(variable)
+                domain_size = bn.variable(variable).domainSize()
+                best_prob = -1
+                best_index = -1
+
+                for i in range(domain_size):
+                    if dist[i] > best_prob:
+                        best_prob = dist[i]
+                        best_index = i
+
+                max_index = best_index
+                evidence[variable] = max_index
+            ie.setEvidence(evidence)
+        if evidence:
+            ie.setEvidence(evidence)
         print("test")
         MPE = ie.mpe()
         print("MPE:", MPE)

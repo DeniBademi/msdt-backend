@@ -31,7 +31,6 @@ def markov_blanket(domain, target, evidence, esign, dummy):
             XI.remove(i)
 
     if target in XI:
-        print("LOL")
         XI.remove(target)
 
     return XI

@@ -1,61 +1,32 @@
-domain: <pyhugin96.Domain object at 0x109ce0f40>
-domain: <pyhugin96.Domain object at 0x109ce0f40>
-target: <pyhugin96.Node object at 0x109dcb970>
-evidence: {<pyhugin96.Node object at 0x109dcbb20>: 1}
-dummy: <pyhugin96.Node object at 0x109dcd460>
-ADSADA
-alpha: 0.9
-esign: {<pyhugin96.Node object at 0x109dcbb20>: 1}
-LOL
 Level 1
 ------------------------------------------------------------------------------
-The chance of Endometrium in cervical cytology being yes = 0.036697249999999994
+The chance of dysp being no = 0.4365000000000001
 ------------------------------------------------------------------------------
-What are the factors that support above prediction of Endometrium in cervical cytology?
-Enlarged nodes CT = yes (Very important)
+What are the factors that support above prediction of dysp?
+alpha: 0.8
+smoke = yes (Very important)
 ------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Endometrium in cervical cytology?
+What are the factors that do not support above prediction of dysp?
 None
 ------------------------------------------------------------------------------
 Level 2
 ------------------------------------------------------------------------------
-How does the model utilize the above factors to predict Endometrium in cervical cytology? 
-As the immediate causes of  Endometrium in cervical cytology the model uses:
-Postoperative grade :  11.3 % increase in grade_3
-Adjuvant therapy :  8.6 % increase in chemotx
-LVSI :  13.2 % increase in yes
-Myometrial invasion :  5.9 % increase in ge_50
-Preoperative grade :  7.2 % increase in grade_3
+How does the model utilize the above factors to predict dysp? 
+As the immediate causes of  dysp the model uses:
+bronc :  15.0 % increase in yes
+either :  4.5 % increase in yes
 ------------------------------------------------------------------------------
 Level 3
 ------------------------------------------------------------------------------
-What are the factors that support above prediction of Postoperative grade?
-Enlarged nodes CT = yes
+What are the factors that support above prediction of bronc?
+smoke = yes
 ------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Postoperative grade?
+What are the factors that do not support above prediction of bronc?
 None
 ------------------------------------------------------------------------------
-What are the factors that support above prediction of Adjuvant therapy?
-Enlarged nodes CT = yes
+What are the factors that support above prediction of either?
+smoke = yes
 ------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Adjuvant therapy?
-None
-------------------------------------------------------------------------------
-What are the factors that support above prediction of LVSI?
-Enlarged nodes CT = yes
-------------------------------------------------------------------------------
-What are the factors that do not support above prediction of LVSI?
-None
-------------------------------------------------------------------------------
-What are the factors that support above prediction of Myometrial invasion?
-Enlarged nodes CT = yes
-------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Myometrial invasion?
-None
-------------------------------------------------------------------------------
-What are the factors that support above prediction of Preoperative grade?
-Enlarged nodes CT = yes
-------------------------------------------------------------------------------
-What are the factors that do not support above prediction of Preoperative grade?
+What are the factors that do not support above prediction of either?
 None
 ------------------------------------------------------------------------------

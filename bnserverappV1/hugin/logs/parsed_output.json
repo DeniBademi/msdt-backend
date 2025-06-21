@@ -1,12 +1,12 @@
 {
     "prediction": {
-        "variable_name": "Endometrium in cervical cytology",
-        "predicted_value": "yes",
-        "probability": 0.036697249999999994
+        "variable_name": "dysp",
+        "predicted_value": "no",
+        "probability": 0.4365000000000001
     },
     "supporting_factors": [
         {
-            "feature": "Enlarged nodes CT",
+            "feature": "smoke",
             "value": "yes",
             "importance": "Very important"
         }
@@ -19,37 +19,22 @@
     ],
     "immediate_causes": [
         {
-            "feature": "Postoperative grade",
-            "increase_percent": 11.3,
-            "state": "grade_3"
-        },
-        {
-            "feature": "Adjuvant therapy",
-            "increase_percent": 8.6,
-            "state": "chemotx"
-        },
-        {
-            "feature": "LVSI",
-            "increase_percent": 13.2,
+            "feature": "bronc",
+            "increase_percent": 15.0,
             "state": "yes"
         },
         {
-            "feature": "Myometrial invasion",
-            "increase_percent": 5.9,
-            "state": "ge_50"
-        },
-        {
-            "feature": "Preoperative grade",
-            "increase_percent": 7.2,
-            "state": "grade_3"
+            "feature": "either",
+            "increase_percent": 4.5,
+            "state": "yes"
         }
     ],
     "level3_explanations": [
         {
-            "query": "Endometrium in cervical cytology",
+            "query": "dysp",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
+                    "feature": "smoke",
                     "value": "yes (Very important)"
                 }
             ],
@@ -67,10 +52,10 @@
             ]
         },
         {
-            "query": "Postoperative grade",
+            "query": "bronc",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
+                    "feature": "smoke",
                     "value": "yes"
                 }
             ],
@@ -88,73 +73,10 @@
             ]
         },
         {
-            "query": "Adjuvant therapy",
+            "query": "either",
             "supporting": [
                 {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes"
-                }
-            ],
-            "opposing": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ],
-            "partially_supporting": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ]
-        },
-        {
-            "query": "LVSI",
-            "supporting": [
-                {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes"
-                }
-            ],
-            "opposing": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ],
-            "partially_supporting": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ]
-        },
-        {
-            "query": "Myometrial invasion",
-            "supporting": [
-                {
-                    "feature": "Enlarged nodes CT",
-                    "value": "yes"
-                }
-            ],
-            "opposing": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ],
-            "partially_supporting": [
-                {
-                    "feature": "None",
-                    "value": "None"
-                }
-            ]
-        },
-        {
-            "query": "Preoperative grade",
-            "supporting": [
-                {
-                    "feature": "Enlarged nodes CT",
+                    "feature": "smoke",
                     "value": "yes"
                 }
             ],
